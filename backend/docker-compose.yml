@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  mail:
+    image: docker.io/mailserver/docker-mailserver:latest
+    hostname: mail
+    domainname: driftspike.space
+    container_name: mailserver
+    env_file:
+      - ./mailserver.env
+    ports:
+      - "25:25"
+      - "143:143"
+      - "587:587"
+      - "993:993"
+    volumes:
+      - ./config:/tmp/docker-mailserver
+      - maildata:/var/mail
+      - mailstate:/var/mail-state
+      - ./logs:/var/log/mail
+    restart: unless-stopped
+
+volumes:
+  maildata:
+  mailstate:
